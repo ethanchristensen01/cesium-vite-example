@@ -1,10 +1,11 @@
 import { defineConfig } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
-
+import { resolve } from "path";
 const cesiumSource = "node_modules/cesium/Build/Cesium";
 // This is the base url for static files that CesiumJS needs to load.
+// It should be an absolute path.
 // Set to an empty string to place the files at the site's root path
-const cesiumBaseUrl = "cesiumStatic";
+const cesiumBaseUrl = resolve(__dirname, "cesiumStatic");
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -26,4 +27,12 @@ export default defineConfig({
       ],
     }),
   ],
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        multipage: resolve(__dirname, "multipage/index.html"),
+      },
+    },
+  },
 });
